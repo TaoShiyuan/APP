@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">FirstApp</string>
-
-
-
-
-
+    <string name="dollar">dollar</string>
+    <string name="euro">euro</string>
+    <string name="won">won</string>
+    <string name="change">change</string>
+    <string name="rmb_put">input RMB</string>
+    <string name="dollarset"></string>
+    <string name="euroset"></string>
+    <string name="wonset"></string>
+    <string name="save">save</string>
 </resources>
