@@ -1,19 +1,19 @@
 package com.example.firstapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class activityopen extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Activityopen extends AppCompatActivity {
 //    private static final String TAG = "";
     EditText dollarset;
     EditText euroset;
     EditText wonset;
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,8 @@ public class activityopen extends AppCompatActivity {
         String newdollar=dollarset.getText().toString();
         String neweuro=euroset.getText().toString();
         String newwon=wonset.getText().toString();
+
+
         bdl.putFloat("dollar_rate_key",Float.parseFloat(newdollar));
         bdl.putFloat("euro_rate_key",Float.parseFloat(neweuro));
         bdl.putFloat("won_rate_key",Float.parseFloat(newwon));

@@ -1,16 +1,21 @@
 package com.example.firstapp;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.media.MediaParser;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity implements Runnable {
+    private static final String TAG ="abc" ;
+    Handler handler;
+
     float dollarRate=0.1464f,euroRate=0.1258f,wonRate=171.9833f;
     TextView textView,textView2,textView3;
     EditText rmb_input;
@@ -23,7 +28,33 @@ public class MainActivity extends AppCompatActivity {
         dollar=findViewById(R.id.dollar);
         euro=findViewById(R.id.euro);
         won=findViewById(R.id.won);
+
+//        //修改保存内容
+//        SharedPreferences sp=getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+//        SharedPreferences.Editor editor=sp.edit();
+//        editor.putFloat("dollar_rate_key",dollarRate );
+////        editor.putFloat("euro_rate_key", Float.parseFloat(neweuro));
+////        editor.putFloat("won_rate_key", Float.parseFloat(newwon));
+//        editor.apply();
+
+
+        Thread t=new Thread(this);
+        t.start();
+
+        handler=new Handler(){
+            @Override
+            public  void handleMessage(Message msg){
+                if(msg.what==5){
+                    String str=(String)msg.obj;
+                    Log.i(TAG,"handleMessage:hetMassage msg="+str);
+                    rmb_input.setText(str);
+                }
+                super.handleMessage(msg);
+            }
+        };
         //Toast.makeText(this, "please input number",Toast.LENGTH_SHORT).show();
+
+
 
     }
     public void dollar(View btn){
@@ -47,9 +78,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void change(View btn){
-        //open activityopen
-        Intent intent=new Intent(this,activityopen.class);
+        //open Activityopen
+        Intent intent=new Intent(this, Activityopen.class);
         Bundle bundle=new Bundle();
+
 
         bundle.putFloat("dollar_rate_key",dollarRate);
         bundle.putFloat("euro_rate_key",euroRate);
@@ -57,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtras(bundle);
         //Log.i(TAG,"openOne:dollarRate="+dollarRate);
         //startActivity(second);
+       //传回修改内容
         startActivityForResult(intent,2);
+
 
     }
     protected void onActivityResult(int requestcode, int resultcode,Intent data){
@@ -78,7 +112,18 @@ public class MainActivity extends AppCompatActivity {
         String output3=String.valueOf(wonRate);
         textView3.setText("韩元汇率为："+output3);
     }
+
+    @Override
+    public void run() {
+        Log.i(TAG,"run:");
+        Message msg=handler.obtainMessage(5);
+        msg.obj="hello from run()"
+;
+    handler.sendMessage(msg);
+    }
 }
+
+
 
 
 
